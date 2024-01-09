@@ -32,7 +32,7 @@ Starts following services
 - Grafana on port 5000 
 
 Start
-$ VERACODE_API_KEY_ID=... VERACODE_API_KEY_SECRET=... docker-compose up 
+$ sleep_interval=30 CUSTOM_FIELD_NAME=.... VERACODE_API_KEY_ID=... VERACODE_API_KEY_SECRET=... docker-compose up 
 
 Stop 
 $ docker compose stop
