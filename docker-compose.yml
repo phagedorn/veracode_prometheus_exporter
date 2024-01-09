@@ -1,0 +1,40 @@
+version: '3'
+
+networks:
+  monitoring:
+
+services:
+  veracode_exporter:
+    environment:
+      - VERACODE_API_KEY_ID=${VERACODE_API_KEY_ID}
+      - VERACODE_API_KEY_SECRET=${VERACODE_API_KEY_SECRET}
+      - https_proxy=${https_proxy}
+      - no_proxy=${no_proxy}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:v2.30.3
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+      - monitoring
+
+  grafana:
+      image: grafana/grafana
+      user: "472"
+      depends_on:
+        - prometheus
+      ports:
+        - 3000:3000
+      networks:
+        - monitoring
