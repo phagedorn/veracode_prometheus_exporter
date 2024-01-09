@@ -1,3 +1,16 @@
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [veracode_prometheus_exporter](#veracode_prometheus_exporter)
+- [Start standalone script](#start-standalone-script)
+- [Start only prometheus container](#start-only-prometheus-container)
+- [Docker Composee](#docker-composee)
+  - [Start](#start)
+  - [Stop](#stop)
+
+<!-- /code_chunk_output -->
+
 # veracode_prometheus_exporter
 exports simple statistics from veracode api
 
@@ -18,21 +31,27 @@ veracode_total_empty_cinums 0.0
 
 
 # Start standalone script
-
-
-# Start only prometheus container
-
+```
+$ sleep_interval=30 CUSTOM_FIELD_NAME=... VERACODE_API_KEY_ID=... VERACODE_API_KEY_SECRET=... python3 veracode_prometheus_exporter.py
+```
+# Start only veracode_prometheus_exporter container
+```
 $ docker run -p 8000:8000 -e VERACODE_API_KEY_ID=... -e VERACODE_API_KEY_SECRET=... veracode_prometheus_exporter:latest
-
+```
 # Docker Composee 
 
 Starts following services 
+
 - veracode prometheus exporter on port 8000
 - Prometheus with on port 9090 with scrape config for veracode prometheus exporter
 - Grafana on port 5000 
 
-Start
-$ sleep_interval=30 CUSTOM_FIELD_NAME=.... VERACODE_API_KEY_ID=... VERACODE_API_KEY_SECRET=... docker-compose up 
+## Start
+```
+$ sleep_interval=30 CUSTOM_FIELD_NAME=... VERACODE_API_KEY_ID=... VERACODE_API_KEY_SECRET=... docker-compose up 
+```
 
-Stop 
+## Stop 
+```
 $ docker compose stop
+```
