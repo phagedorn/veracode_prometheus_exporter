@@ -34,6 +34,16 @@ services:
       user: "472"
       depends_on:
         - prometheus
+      environment: 
+        GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: "true"
+        GF_AUTH_ANONYMOUS_ENABLED: "true"
+        GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+        GF_AUTH_DISABLE_SIGNOUT_MENU: "true"
+        GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      volumes:
+        - ./veracode-grafana-dashboard.json:/var/lib/grafana/dashboards/veracode-grafana-dashboard.json
+        - ./local.yml:/etc/grafana/provisioning/dashboards/local.yml
+        - ./prometheus_ds.yml:/etc/grafana/provisioning/datasources/prometheus_ds.yml
       ports:
         - 3000:3000
       networks:
