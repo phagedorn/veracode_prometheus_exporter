@@ -11,11 +11,11 @@ def get_env_variable(var_name, default, cast_type=str):
 
 class ProfileCollector:
     def __init__(self):
-        logging.basicConfig(level=logging.DEBUG)
+        log_level = get_env_variable('LOG_LEVEL', 'INFO')
+        logging.basicConfig(level=log_level)
 
         self.api = VeracodeAPI()
         self.custom_field_name = get_env_variable('CUSTOM_FIELD_NAME', 'cinum')
-        self.sleep_interval = get_env_variable('SLEEP_INTERVAL', '60', int)
         self.team_member_count_metrics = {}
 
     def register_metrics(self):
@@ -70,9 +70,12 @@ if __name__ == '__main__':
     collector = ProfileCollector()
     collector.register_metrics()
     port = get_env_variable('PORT', '8000', int)
+    sleep_interval = int(os.getenv('SLEEP_INTERVAL', '300'))  # Get sleep interval from environment variable with a default of 300 seconds (5 minutes)
+
     start_http_server(port)
 
     while True:
         collector.get_unique_custom_field_count()
         collector.count_users()
         team_member_counts = collector.count_team_members(team_name)
+        time.sleep(sleep_interval)
