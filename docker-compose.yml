@@ -4,7 +4,7 @@ networks:
   monitoring:
 
 services:
-  veracode_exporter:
+  :
     environment:
       - VERACODE_API_KEY_ID=${VERACODE_API_KEY_ID}
       - VERACODE_API_KEY_SECRET=${VERACODE_API_KEY_SECRET}
